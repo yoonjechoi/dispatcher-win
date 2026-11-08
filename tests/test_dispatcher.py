@@ -339,6 +339,16 @@ class DispatcherTest(unittest.TestCase):
         self.assertIn("CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS", call["args"][call["args"].index("--settings") + 1])
         self.assertEqual(call["args"][call["args"].index("--session-id") + 1], entry["session_id"])
         self.assertEqual(os.path.realpath(call["cwd"]), os.path.realpath(self.desk))
+        self.assertNotIn("홈 폴더를 신뢰함", result.stdout)  # 위 폴더(work)가 이미 신뢰돼 있다
+
+    def test_start_trusts_home_when_untrusted(self):
+        self.write_config(assistant_name="미소", home_dir=self.desk, workspace_root=self.work)
+        result = self.run_cmd("start", env={"DISPATCHER_START_ANYWAY": "1"}, stdin=subprocess.DEVNULL)
+        self.assertIn("홈 폴더를 신뢰함", result.stdout)
+        with open(self.claude_json, encoding="utf-8") as f:
+            self.assertIn(os.path.realpath(self.desk).replace("\\", "/"), json.load(f)["projects"])
+        with open(os.path.join(self.home, "trust.log"), encoding="utf-8") as f:
+            self.assertIn('"how": "start"', f.read())
 
     def test_doctor_reports_login(self):
         self.ready()

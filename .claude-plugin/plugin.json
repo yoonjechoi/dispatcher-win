@@ -1,6 +1,6 @@
 {
   "name": "dispatcher-win",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Windows 용 디스패처. 프로젝트별 Claude Code 세션을 번호로 관리한다. Claude Code 백그라운드 세션(claude --bg · agents · attach)과 SendMessage 기반. Windows 10/11 전용.",
   "author": { "name": "yoonjechoi" },
   "keywords": ["sessions", "dispatcher", "windows", "background-agents", "korean"],

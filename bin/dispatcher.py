@@ -821,6 +821,13 @@ def cmd_start(args):
     if desk and desk["live"]:
         print(f"이미 떠 있음: {describe(desk)}")
         return EXIT_FAILED
+    if not trusted(home):
+        # 홈 폴더는 사용자가 init 으로 정하고 start 도 직접 친다. 신뢰 화면에서 멈추지 않게 미리 적는다.
+        if record_trust(home):
+            log_trust(folder=os.path.realpath(home), how="start")
+            print(f"홈 폴더를 신뢰함: {os.path.realpath(home)}")
+        else:
+            print(f"홈 폴더 신뢰를 적지 못함. 신뢰 화면이 뜨면 승인한다: {home}")
     session_id = str(uuid.uuid4())
     if args.resume:
         display = desk["display"] if desk else settings["assistant_name"]

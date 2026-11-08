@@ -105,7 +105,7 @@ cat "$HOME/.config/dispatcher/config.json" 2>/dev/null
 
 출력의 `workspace_root` 를 사용자에게 보여 주고 묻는다: 「이 폴더 아래에서 디스패처가 띄우는 세션은 폴더 신뢰를 묻지 않고 실행됩니다. 그 폴더의 훅과 설정도 실행됩니다. 괜찮을까요?」
 
-- 허락하면: `"$D" trust "<workspace_root>"` 와 `"$D" trust "<홈 폴더>"`
+- 허락하면: `"$D" trust "<workspace_root>"`. 홈 폴더는 `dispatcher start` 가 스스로 신뢰를 적는다
 - 거절하면: 신뢰하지 않는다. 처음 세션을 띄울 때 폴더마다 묻게 된다고 알린다.
 
 ## 6단계. doctor
@@ -152,7 +152,7 @@ dispatcher-win 설치 결과
 이제 사람이 할 일:
 1. 새 PowerShell 창을 연다(PATH 를 새로 읽는다).
 2. dispatcher start 를 친다. 비서 세션이 홈 폴더에서 뜬다.
-3. 처음이면 Claude Code 가 권한 무시 경고와 폴더 신뢰를 묻는다. 둘 다 승인한다.
+3. 처음이면 Claude Code 가 권한 무시 경고를 묻는다. 승인한다(홈 폴더 신뢰는 start 가 적는다).
 4. 휴대폰이나 데스크톱 Claude 앱의 세션 목록에 「#100 <이름>」이 보이면 끝이다. 거기서 일을 시키면 된다. 비서가 띄운 작업 세션(「#1 …」)도 목록에 나와 직접 붙을 수 있다.
 다음부터 이어서 시작할 때는 dispatcher start -c
 ```

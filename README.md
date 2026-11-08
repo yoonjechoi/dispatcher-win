@@ -91,6 +91,7 @@ dispatcher init | start [-c] | doctor | setup-shell
 
 - 백그라운드 세션은 신뢰하지 않은 폴더에서 뜨지 않는다(「Workspace not trusted」). 위 폴더를 신뢰하면 그 아래 일반 폴더는 이어받지만, git 저장소 폴더는 따로 신뢰가 필요하다.
 - 디스패처는 `trusted_roots` 아래 폴더면 `%USERPROFILE%\.claude.json` 에 그 폴더의 신뢰를 적고 다시 띄운다. 출력에 「자동 신뢰함」이 나오고 `trust.log` 에 남는다. **신뢰한 폴더의 훅과 설정은 실행된다.** 믿지 않는 외부 저장소는 `--no-auto-trust` 로 띄운다.
+- 홈 폴더는 `dispatcher start` 가 띄우기 전에 신뢰를 적는다(`trust.log` 에 `"how": "start"`).
 - 목록 밖 폴더, `..` 가 든 경로, `workspace_root` 를 처음 정한 폴더는 자동 신뢰하지 않고 종료 코드 5 로 멈춘다. 사용자가 허락하면 `dispatcher trust "<폴더>"`.
 - 모든 세션(비서 · 작업)은 팀 에이전트를 켜고 뜬다(`--settings '{"env":{"CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS":"1"}}'`).
 - 작업 세션은 권한 무시(`--dangerously-skip-permissions`)로 뜬다. 처음 한 번은 Claude Code 의 경고 화면을 사람이 승인해야 한다. `dispatcher start` 로 비서 세션을 처음 띄울 때 나온다.
@@ -107,7 +108,7 @@ dispatcher init | start [-c] | doctor | setup-shell
 ## 한계
 
 - 작업 세션의 화면은 평소에 보이지 않는다. `dispatcher show` 로 Windows Terminal 탭에 붙여서 본다.
-- 작업 세션도 리모트 컨트롤을 켜고 뜬다. 휴대폰 · 데스크톱 Claude 앱 목록에 「#7 이름」으로 나와 직접 붙을 수 있다. 다만 리모트 컨트롤을 한 번도 대화형으로 켜 본 적 없는 PC 에서는 「/rc connecting…」에 머물렀다. `dispatcher start` 로 비서 세션을 먼저 띄우면 풀린다.
+- 비서 · 작업 세션 모두 리모트 컨트롤을 켜고 뜬다. 휴대폰 · 데스크톱 Claude 앱 목록에 「#7 이름」으로 나와 직접 붙을 수 있다. 다만 리모트 컨트롤을 한 번도 대화형으로 켜 본 적 없는 PC 에서는 「/rc connecting…」에 머물렀다. `dispatcher start` 로 비서 세션을 먼저 띄우면 풀린다.
 - 세션이 질문 · 승인을 기다리면 목록에 「입력 대기」로 나온다. macOS 판의 선택창 알림 훅은 아직 없다.
 - macOS 판의 화면 분할, `--worktree`, `rename-sync`, 묶음 설정(`groups`)은 없다.
 - 시험한 환경: Windows 11 24H2 Pro, Claude Code 2.1.319, Python 3.12. Windows 10 은 시험하지 못했다.
