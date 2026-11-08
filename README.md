@@ -18,6 +18,7 @@ https://raw.githubusercontent.com/yoonjechoi/dispatcher-win/main/INSTALL.md 를 
 
 ```
 사람 → 리모트 컨트롤(휴대폰 · 데스크톱 앱) 또는 PowerShell → 비서 세션(#100, 홈 폴더, 대화형)
+                                   (작업 세션에도 리모트 컨트롤로 직접 붙을 수 있다)
                                                        │ dispatch 스킬, dispatcher 명령
                                                        ▼
                                프로젝트마다 백그라운드 세션 (#1, #2, #1-1 …)
@@ -27,7 +28,7 @@ https://raw.githubusercontent.com/yoonjechoi/dispatcher-win/main/INSTALL.md 를 
 
 | 하는 일 | 쓰는 것 |
 |---|---|
-| 세션 띄우기 | `claude --bg -n "#7 이름" --dangerously-skip-permissions --append-system-prompt <보고 규칙> "<지시>"` |
+| 세션 띄우기 | `claude --bg -n "#7 이름" --remote-control "#7 이름" --dangerously-skip-permissions --append-system-prompt <보고 규칙> "<지시>"` |
 | 목록 · 상태 | `claude agents --json` + 번호 명단(`sessions.json`) |
 | 화면으로 보기 | `claude attach <ID>` 를 Windows Terminal 새 탭으로 |
 | 말 전달 | 세션 안의 `SendMessage` 도구. 꺼진 세션은 `claude --bg --resume` 으로 이어 띄우며 넣는다 |
@@ -105,7 +106,7 @@ dispatcher init | start [-c] | doctor | setup-shell
 ## 한계
 
 - 작업 세션의 화면은 평소에 보이지 않는다. `dispatcher show` 로 Windows Terminal 탭에 붙여서 본다.
-- 백그라운드 세션에 리모트 컨트롤을 켜면 시험에서 「/rc connecting…」에 머물렀다. 그래서 리모트 컨트롤은 비서 세션에만 켠다. 휴대폰에서는 비서 세션에 말하면 된다.
+- 작업 세션도 리모트 컨트롤을 켜고 뜬다. 휴대폰 · 데스크톱 Claude 앱 목록에 「#7 이름」으로 나와 직접 붙을 수 있다. 다만 리모트 컨트롤을 한 번도 대화형으로 켜 본 적 없는 PC 에서는 「/rc connecting…」에 머물렀다. `dispatcher start` 로 비서 세션을 먼저 띄우면 풀린다.
 - 세션이 질문 · 승인을 기다리면 목록에 「입력 대기」로 나온다. macOS 판의 선택창 알림 훅은 아직 없다.
 - macOS 판의 화면 분할, `--worktree`, `rename-sync`, 묶음 설정(`groups`)은 없다.
 - 시험한 환경: Windows 11 24H2 Pro, Claude Code 2.1.319, Python 3.12. Windows 10 은 시험하지 못했다.

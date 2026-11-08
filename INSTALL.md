@@ -153,7 +153,7 @@ dispatcher-win 설치 결과
 1. 새 PowerShell 창을 연다(PATH 를 새로 읽는다).
 2. dispatcher start 를 친다. 비서 세션이 홈 폴더에서 뜬다.
 3. 처음이면 Claude Code 가 권한 무시 경고와 폴더 신뢰를 묻는다. 둘 다 승인한다.
-4. 휴대폰이나 데스크톱 Claude 앱의 세션 목록에 「#100 <이름>」이 보이면 끝이다. 거기서 일을 시키면 된다.
+4. 휴대폰이나 데스크톱 Claude 앱의 세션 목록에 「#100 <이름>」이 보이면 끝이다. 거기서 일을 시키면 된다. 비서가 띄운 작업 세션(「#1 …」)도 목록에 나와 직접 붙을 수 있다.
 다음부터 이어서 시작할 때는 dispatcher start -c
 ```
 
@@ -164,5 +164,6 @@ dispatcher-win 설치 결과
 | `claude plugin marketplace add` 가 실패 | 인터넷 연결과 GitHub 접속을 확인하라고 알리고 멈춘다 |
 | `Workspace not trusted` 가 launch 출력에 남음 | 그 폴더가 `trusted_roots` 밖이다. 사용자에게 묻고 `dispatcher trust` |
 | `--bg with bypassPermissions requires accepting the disclaimer` | 8단계 3번(권한 무시 경고 승인)을 아직 안 했다. 사람이 `dispatcher start` 를 한 번 하게 한다 |
+| 작업 세션이 앱 목록에 안 나오고 `/rc connecting…` 에 머묾 | 그 PC 에서 리모트 컨트롤을 대화형으로 켠 적이 없다. 사람이 `dispatcher start` 를 먼저 한 번 하게 한다 |
 | 한글이 깨져 보임 | 표시 문제다. 파일은 UTF-8 로 저장된다. Windows Terminal 을 쓰라고 권한다 |
 | `dispatcher` 를 못 찾음(새 터미널) | 7단계를 다시 본다 |

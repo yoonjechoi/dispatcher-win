@@ -536,7 +536,7 @@ def cmd_launch(args):
         store.write("sessions.json", book)
     display = display_name(entry["no"], args.name)
     rule = session_rule(views) + (family_rule(views, parent["session_id"]) if parent else "")
-    flags = ["-n", display, "--dangerously-skip-permissions", "--append-system-prompt", rule]
+    flags = ["-n", display, "--remote-control", display, "--dangerously-skip-permissions", "--append-system-prompt", rule]
     if target:
         flags += ["--resume", target["session_id"]]
     for extra in args.plugin_dir:
@@ -649,7 +649,8 @@ def cmd_send(args):
     if not target.get("cwd") or not os.path.isdir(target["cwd"]):
         print(f"폴더가 없어 이을 수 없음: {target.get('cwd')}")
         return EXIT_FAILED
-    flags = ["-n", target["display"], "--dangerously-skip-permissions", "--append-system-prompt", session_rule(views),
+    flags = ["-n", target["display"], "--remote-control", target["display"], "--dangerously-skip-permissions",
+             "--append-system-prompt", session_rule(views),
              "--resume", target["session_id"]]
     result, text, bg_id = bg_launch(target["cwd"], flags, args.message)
     if not bg_id:

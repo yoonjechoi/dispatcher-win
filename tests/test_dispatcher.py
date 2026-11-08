@@ -87,6 +87,7 @@ class DispatcherTest(unittest.TestCase):
             self.assertTrue(entry["bg_id"])
         args = self.bg_calls()[0]["args"]
         self.assertEqual(args[args.index("-n") + 1], "#1 알파")
+        self.assertEqual(args[args.index("--remote-control") + 1], "#1 알파")
         self.assertIn("--dangerously-skip-permissions", args)
         self.assertEqual(args[-1], "일해")
 
