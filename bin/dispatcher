@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Git Bash(Claude Code 의 Bash 도구 · 훅)에서 부르는 입구. 실제 프로그램은 dispatcher.py 다.
+here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export PYTHONUTF8=1 PYTHONIOENCODING=utf-8
+if [ -n "$DISPATCHER_PYTHON" ]; then exec "$DISPATCHER_PYTHON" "$here/dispatcher.py" "$@"; fi
+if command -v py >/dev/null 2>&1; then exec py -3 "$here/dispatcher.py" "$@"; fi
+# WindowsApps 의 python 은 스토어로 안내만 하는 가짜일 수 있다. 실제로 도는지 보고 쓴다.
+for p in python python3; do
+  if command -v "$p" >/dev/null 2>&1 && "$p" -c "import sys; sys.exit(sys.version_info < (3, 9))" >/dev/null 2>&1; then
+    exec "$p" "$here/dispatcher.py" "$@"
+  fi
+done
+echo "dispatcher: Python 3.9 이상이 필요하다" >&2
+exit 7

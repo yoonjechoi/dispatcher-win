@@ -1,0 +1,11 @@
+{
+  "name": "dispatcher-win",
+  "owner": { "name": "yoonjechoi" },
+  "plugins": [
+    {
+      "name": "dispatcher-win",
+      "source": "./",
+      "description": "Windows 용 디스패처. 프로젝트별 Claude Code 세션을 번호로 관리한다. Windows 10/11 전용(macOS 는 dispatcher 를 쓴다)."
+    }
+  ]
+}
