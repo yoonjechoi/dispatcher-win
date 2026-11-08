@@ -33,6 +33,7 @@ SESSION_RULE = ("너는 dispatcher 가 띄운 세션이다. 큰 작업이 끝나
                 "나눌 수 있는 일은 Agent 로 팀원을 띄워 동시에 진행하고, 팀원끼리는 SendMessage 로 주고받아라. "
                 "작업은 지금 폴더에서 직접 한다. 지시가 없으면 git worktree 를 만들지 않는다.")
 NOT_TRUSTED = "Workspace not trusted"
+SETTINGS = json.dumps({"env": {"CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"}})  # 팀 에이전트를 켠다
 STARTING_SECONDS = 300
 LABELS = {"busy": "작업 중", "working": "작업 중", "running": "작업 중", "idle": "쉬는 중", "waiting": "입력 대기",
           "blocked": "입력 대기", "unknown": "시작 중", "done": "끝남", "stopped": "멈춤", "failed": "실패"}
@@ -536,7 +537,8 @@ def cmd_launch(args):
         store.write("sessions.json", book)
     display = display_name(entry["no"], args.name)
     rule = session_rule(views) + (family_rule(views, parent["session_id"]) if parent else "")
-    flags = ["-n", display, "--remote-control", display, "--dangerously-skip-permissions", "--append-system-prompt", rule]
+    flags = ["-n", display, "--remote-control", display, "--dangerously-skip-permissions", "--settings", SETTINGS,
+             "--append-system-prompt", rule]
     if target:
         flags += ["--resume", target["session_id"]]
     for extra in args.plugin_dir:
@@ -650,7 +652,7 @@ def cmd_send(args):
         print(f"폴더가 없어 이을 수 없음: {target.get('cwd')}")
         return EXIT_FAILED
     flags = ["-n", target["display"], "--remote-control", target["display"], "--dangerously-skip-permissions",
-             "--append-system-prompt", session_rule(views),
+             "--settings", SETTINGS, "--append-system-prompt", session_rule(views),
              "--resume", target["session_id"]]
     result, text, bg_id = bg_launch(target["cwd"], flags, args.message)
     if not bg_id:
@@ -797,7 +799,7 @@ def cmd_init(args):
 
 
 def start_flags(display, session_id, resume):
-    flags = ["--dangerously-skip-permissions", "--remote-control", display, "-n", display]
+    flags = ["--dangerously-skip-permissions", "--settings", SETTINGS, "--remote-control", display, "-n", display]
     return flags + (["-c"] if resume else ["--session-id", session_id])
 
 

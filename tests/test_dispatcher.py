@@ -88,6 +88,8 @@ class DispatcherTest(unittest.TestCase):
         args = self.bg_calls()[0]["args"]
         self.assertEqual(args[args.index("-n") + 1], "#1 알파")
         self.assertEqual(args[args.index("--remote-control") + 1], "#1 알파")
+        settings = json.loads(args[args.index("--settings") + 1])
+        self.assertEqual(settings["env"]["CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS"], "1")
         self.assertIn("--dangerously-skip-permissions", args)
         self.assertEqual(args[-1], "일해")
 
@@ -334,6 +336,7 @@ class DispatcherTest(unittest.TestCase):
         self.assertEqual((entry["no"], entry["band"], entry["name"]), (100, "상주", "미소"))
         call = [c for c in self.calls() if "--session-id" in c["args"]][0]
         self.assertEqual(call["args"][call["args"].index("--remote-control") + 1], "#100 미소")
+        self.assertIn("CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS", call["args"][call["args"].index("--settings") + 1])
         self.assertEqual(call["args"][call["args"].index("--session-id") + 1], entry["session_id"])
         self.assertEqual(os.path.realpath(call["cwd"]), os.path.realpath(self.desk))
 
